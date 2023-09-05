@@ -16,7 +16,7 @@ const [dataFetched, setDataFetched] = useState(false)
 useEffect(() => {
     if (employees.length === 0) {
         const fetchData = async () => {
-            const url = 'https://oc-p14-hr-net-backend-3gvzh5otl-maxew33.vercel.app/'
+            const url = 'https://oc-p14-hrnet-full-app.vercel.app/'
 
             const callData = new CallData(url)
 
@@ -27,6 +27,7 @@ useEffect(() => {
         fetchData()
     }
     setDataFetched(true)
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
 
     return (
