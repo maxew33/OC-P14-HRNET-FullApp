@@ -1,7 +1,6 @@
 export default async function addNewEmployee(data: object) {        
     
-    // if(import.meta.env.PROD)
-    if(import.meta.env.DEV)
+    if(import.meta.env.PROD)
     {
         const requestOptions = {
             method: 'POST',
