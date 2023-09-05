@@ -1,0 +1,28 @@
+@import './base/reset', './utils/mixins', './utils/variables', './layout/header', './components/content-wrapper', './pages/createEmploye', './pages/viewEmployees', './components/dropdown';
+
+body {
+    min-height: 100vh;
+    > * {
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    main{
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+        max-width: 1600px;
+        margin: auto;
+    }
+}
+
+.link {
+    border: 2px solid $darkGreen;
+    color: $darkGreen;
+    padding: 0.5rem 1rem;
+    font-size: 2rem;
+    text-decoration: none;
+    border-radius: 0.75rem;
+    width: fit-content;
+    align-self: flex-end;
+}
