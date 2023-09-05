@@ -16,7 +16,7 @@ const [dataFetched, setDataFetched] = useState(false)
 useEffect(() => {
     if (employees.length === 0) {
         const fetchData = async () => {
-            const url = 'https://oc-p14-hr-net-backend-3gvzh5otl-maxew33.vercel.app/api/employees'
+            const url = 'https://oc-p14-hrnet-full-app-git-main-maxew33.vercel.app/api/employees'
 
             const callData = new CallData(url)
 
