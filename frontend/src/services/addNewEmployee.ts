@@ -10,7 +10,7 @@ export default async function addNewEmployee(data: object) {
             body: JSON.stringify(data),
         }
     
-        return fetch('http://localhost:3000/api/employees', requestOptions)
+        return fetch('https://oc-p14-hrnet-full-app-git-main-maxew33.vercel.app/api/employees', requestOptions)
             .then((res) => {
                 return res.json()
             })
