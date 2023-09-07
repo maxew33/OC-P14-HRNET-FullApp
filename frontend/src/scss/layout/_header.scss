@@ -44,3 +44,10 @@
     text-align: right;
     cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+    .logoWrapper{
+        flex-direction: column;
+        gap: unset;
+    }
+}

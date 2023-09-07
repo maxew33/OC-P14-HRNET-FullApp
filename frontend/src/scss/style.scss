@@ -1,4 +1,6 @@
-@import './base/reset', './utils/mixins', './utils/variables', './layout/header', './components/content-wrapper', './pages/createEmploye', './pages/viewEmployees', './components/dropdown';
+@import './base/reset', './utils/mixins', './utils/variables', './layout/header',
+    './components/content-wrapper', './pages/createEmploye',
+    './pages/viewEmployees';
 
 body {
     min-height: 100vh;
@@ -6,7 +8,7 @@ body {
         font-family: 'Montserrat', sans-serif;
     }
 
-    main{
+    main {
         display: flex;
         flex-direction: column;
         padding: 1rem;
@@ -17,6 +19,8 @@ body {
 }
 
 .link {
+    position: relative;
+    z-index: 10;
     border: 2px solid $darkGreen;
     color: $darkGreen;
     padding: 0.5rem 1rem;
@@ -25,4 +29,16 @@ body {
     border-radius: 0.75rem;
     width: fit-content;
     align-self: flex-end;
+}
+
+@media screen and (max-width: 1024px) {
+    :root {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        font-size: 12px;
+    }
 }

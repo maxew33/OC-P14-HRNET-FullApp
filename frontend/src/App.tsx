@@ -27,8 +27,10 @@ export const App = () => {
                     (employee: {
                         [x: string]: string | number | Date
                         _id: string | number
+                        __v: string | number
                     }) => {
-                        const { _id, ...rest } = employee
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        const { _id, __v, ...rest } = employee
                         return rest
                     }
                 )
@@ -42,10 +44,10 @@ export const App = () => {
     }, [])
 
     return (
-        <div>
+        <>
             {(employees.length !== 0 || dataFetched) && (
                 <RouterProvider router={router} />
             )}
-        </div>
+        </>
     )
 }

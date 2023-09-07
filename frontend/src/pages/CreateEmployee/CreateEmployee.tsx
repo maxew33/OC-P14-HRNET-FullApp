@@ -1,12 +1,10 @@
 import React, { FormEvent, useState } from 'react'
 import Header from '../../components/Header/Header'
 import { NavLink } from 'react-router-dom'
-// import Dropdown from '../../components/Dropdown/Dropdown'
 import { department, usStates } from '../../data/dropdownsData'
 import { dataFormat, dataValidationType } from '../../types/dataTypes'
 import { employeesAtom } from '../../main'
 import { useAtom } from 'jotai'
-// import { MessageModal } from '../../components/MessageModal/MessageModal'
 import { Dropdown, Modal } from 'hrnet-maxew-library'
 import addNewEmployee from '../../services/addNewEmployee'
 
@@ -68,8 +66,6 @@ const CreateEmployee: React.FC = () => {
 
         setDataValidation({ ...dataValidation, ...updatedValidationData })
         
-        console.log(1, inputData, 2, JSON.stringify(inputData), 3, JSON.stringify({data: inputData}))
-
         finalValidation.every((value) => value === true)
             ? validateData()
             : setDataSubmitted(true)
@@ -228,7 +224,6 @@ const CreateEmployee: React.FC = () => {
                                 fSize="1rem"
                                 height= "3rem"
                                 selectItem={selectItem}
-                                lBg="#93AD18"
                                 lBordC="#93AD18"
                                 lBordW='2px'
                                 fFam="Rosarivo"
@@ -276,7 +271,7 @@ const CreateEmployee: React.FC = () => {
                             }
                         >
                             <Dropdown
-                                currentValue={inputData.department !== '' ? inputData.department : 'select department'}
+                                currentValue={inputData.department !== '' ? inputData.department : 'select'}
                                 items={department}
                                 dataName="department"
                                 dataLabel='Department'
