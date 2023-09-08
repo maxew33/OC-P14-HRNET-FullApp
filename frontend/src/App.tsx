@@ -22,20 +22,7 @@ export const App = () => {
 
                 const employeesData = await callData.getEmployeesData()
 
-                // delete the "_id" attribute given by mongodb
-                const employeesWithoutId = employeesData.map(
-                    (employee: {
-                        [x: string]: string | number | Date
-                        _id: string | number
-                        __v: string | number
-                    }) => {
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                        const { _id, __v, ...rest } = employee
-                        return rest
-                    }
-                )
-
-                setEmployees([...employees, ...employeesWithoutId])
+                setEmployees([...employees, ...employeesData])
             }
             fetchData()
         }

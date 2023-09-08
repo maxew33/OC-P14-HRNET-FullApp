@@ -31,13 +31,10 @@ const ViewEmployees: React.FC = () => {
                 <div className="content-wrapper">
                     <h2 className="wrapper-title">View employees</h2>
                     {employees.length !== 0 ? (
-                        <>
                         <Table headingNames={names} data={employees} />
-                        </>
                     ) : (
                         'No employee yet'
                     )}
-                    
                 </div>
             </main>
         </>

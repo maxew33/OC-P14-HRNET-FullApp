@@ -12,7 +12,7 @@ const Header: React.FC = () => {
                 <h2 className="logoName">Wealth Health</h2>
             </div>
             <h1 className="appName">HRNet</h1>
-            <button className="exit">
+            <button className="exit" aria-label="logout">
                 <FontAwesomeIcon icon={faPowerOff} />
             </button>
         </header>
