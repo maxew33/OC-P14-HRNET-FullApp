@@ -1,17 +1,17 @@
 export interface dataFormat {
-    [key: string]: string | number
-    firstName: string
-    lastName: string
-    birthday: number
-    street: string
-    city: string
-    state: string
-    zipCode: number
-    startDate: number
-    department: string
+    [key: string]: string | number | null
+    firstName: string | null
+    lastName: string | null
+    birthday: string | null
+    street: string | null
+    city: string | null
+    state: string | null
+    zipCode: number | null
+    startDate: string | null
+    department: string | null
 }
 
-export interface dataValidationType {
+export interface dataErrorType {
     firstName: boolean
     lastName: boolean
     startDate: boolean

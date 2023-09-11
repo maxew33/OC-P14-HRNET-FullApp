@@ -1,6 +1,5 @@
-@import './base/reset', './utils/mixins', './utils/variables', './layout/header',
-    './components/content-wrapper', './pages/createEmployee',
-    './pages/viewEmployees';
+@import './base/reset', './utils/variables', './layout/header',
+    './components/content-wrapper', './pages/createEmployee';
 
 body {
     min-height: 100vh;
@@ -20,6 +19,7 @@ body {
 
 .link {
     position: relative;
+    font-family: $font1;
     z-index: 10;
     border: 2px solid $darkGreen;
     color: $darkGreen;
@@ -40,5 +40,13 @@ body {
 @media screen and (max-width: 768px) {
     :root {
         font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    body {    
+        main {
+            gap: 1.5rem;
+        }
     }
 }

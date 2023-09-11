@@ -1,5 +1,5 @@
 {
-  "name": "oc-p11-kasa",
+  "name": "oc-p14-hrnet",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -16,7 +16,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "hrnet-maxew-library": "^0.4.2",
+    "hrnet-maxew-library": "^1.0.2",
     "jotai": "^2.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -26,6 +26,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/react": "^18.0.28",
+    "@types/react-datepicker": "^4.15.0",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",

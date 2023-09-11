@@ -1,12 +1,16 @@
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import Header from '../../components/Header/Header'
 import { NavLink } from 'react-router-dom'
 import { department, usStates } from '../../data/dropdownsData'
-import { dataFormat, dataValidationType } from '../../types/dataTypes'
+import { dataErrorType, dataFormat } from '../../types/dataTypes'
 import { employeesAtom } from '../../main'
 import { useAtom } from 'jotai'
 import { Dropdown, Modal } from 'hrnet-maxew-library'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import addNewEmployee from '../../services/addNewEmployee'
+import checkInput from '../../services/checkInput'
+import formatDate from '../../services/formatDate'
 
 const CreateEmployee: React.FC = () => {
     // get / set the data from the global state
@@ -14,31 +18,36 @@ const CreateEmployee: React.FC = () => {
 
     // get / set the data from the form
     const [inputData, setInputData] = useState<dataFormat>({
-        firstName: '',
-        lastName: '',
-        startDate: Date.now(),
-        department: '',
-        birthday: Date.now(),
-        street: '',
-        city: '',
-        state: '',
-        zipCode: 0,
+        firstName: null,
+        lastName: null,
+        startDate: null,
+        department: null,
+        birthday: null,
+        street: null,
+        city: null,
+        state: null,
+        zipCode: null,
     })
 
     // when the form is submitted, check if the form are correctly filled
 
     const [dataSubmitted, setDataSubmitted] = useState(false)
 
-    const [dataValidation, setDataValidation] = useState<dataValidationType>({
-        firstName: true,
-        lastName: true,
-        startDate: true,
-        department: true,
-        birthday: true,
-        street: true,
-        city: true,
-        state: true,
-        zipCode: true,
+    const [dataValidation, setDataValidation] = useState({
+        status: true,
+        reason: [''],
+    })
+
+    const [dataError, setDataError] = useState<dataErrorType>({
+        firstName: false,
+        lastName: false,
+        startDate: false,
+        department: false,
+        birthday: false,
+        street: false,
+        city: false,
+        state: false,
+        zipCode: false,
     })
 
     const [dataValidated, setDataValidated] = useState(false)
@@ -55,26 +64,44 @@ const CreateEmployee: React.FC = () => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
 
-        const finalValidation: boolean[] = []
-        const updatedValidationData: Partial<dataValidationType> = {}
+        // unset data validation
+        setDataValidation({
+            status: true,
+            reason: [],
+        })
+
+        let finalValidation = true
+
+        const updatedDataError: Partial<dataErrorType> = {}
 
         for (const key in inputData) {
-            const validated = inputData[key as keyof dataFormat] ? true : false
-            updatedValidationData[key as keyof dataValidationType] = validated
-            finalValidation.push(validated)
+            const checkData = checkInput(
+                key,
+                inputData[key as keyof dataFormat]
+            )
+
+            updatedDataError[key as keyof dataErrorType] = !checkData.status
+
+            console.log(checkData)
+
+            if (!checkData.status) {
+                setDataValidation((prevDataValidation) => ({
+                    status: false,
+                    reason: [...prevDataValidation.reason, checkData.reason],
+                }))
+                finalValidation = false
+            }
         }
 
-        setDataValidation({ ...dataValidation, ...updatedValidationData })
-        
-        finalValidation.every((value) => value === true)
-            ? validateData()
-            : setDataSubmitted(true)
+        setDataError({ ...dataError, ...updatedDataError })
+
+        finalValidation ? validateData() : setDataSubmitted(true)
     }
 
     //data are validated => update the global state and the bdd
     const validateData = async () => {
         setEmployees([...employees, inputData])
-        
+
         addNewEmployee(inputData)
 
         setDataValidated(true)
@@ -86,37 +113,47 @@ const CreateEmployee: React.FC = () => {
         setDataValidated(false)
 
         setInputData({
-            firstName: '',
-            lastName: '',
-            startDate: 0,
-            department: '',
-            birthday: 0,
-            street: '',
-            city: '',
-            state: '',
-            zipCode: 0,
-        })
-
-        setDataValidation({
-            firstName: true,
-            lastName: true,
-            startDate: true,
-            department: true,
-            birthday: true,
-            street: true,
-            city: true,
-            state: true,
-            zipCode: true,
+            firstName: null,
+            lastName: null,
+            startDate: null,
+            department: null,
+            birthday: null,
+            street: null,
+            city: null,
+            state: null,
+            zipCode: null,
         })
     }
 
-    // when i click on 'ok' button
+    // when I click on 'ok' button
     const handleConfirm = () => {
-
-        dataValidated  && clearData()
+        dataValidated && clearData()
 
         setDataSubmitted(false)
     }
+
+    // Date picker
+
+    const today = new Date()
+
+    type dateFormat = {
+        birthday: null | Date
+        startDate: null | Date
+    }
+
+    const [dateSelected, setDateSelected] = useState<dateFormat>({
+        birthday: null,
+        startDate: null,
+    })
+
+    const selectDateHandler = (d: Date, id: string) => {
+        setDateSelected({ ...dateSelected, [id]: d })
+        setInputData({ ...inputData, [id]: formatDate(d) })
+    }
+
+    useEffect(() => {
+        console.log(inputData)
+    }, [inputData])
 
     return (
         <>
@@ -131,7 +168,7 @@ const CreateEmployee: React.FC = () => {
                         <div
                             className={
                                 'input-wrapper' +
-                                (!dataValidation.firstName ? ' error' : '')
+                                (dataError.firstName ? ' error' : '')
                             }
                         >
                             <label htmlFor="firstName"> First name : </label>
@@ -147,7 +184,7 @@ const CreateEmployee: React.FC = () => {
                         <div
                             className={
                                 'input-wrapper' +
-                                (!dataValidation.lastName ? ' error' : '')
+                                (dataError.lastName ? ' error' : '')
                             }
                         >
                             <label htmlFor="lastName"> Last name : </label>
@@ -163,17 +200,27 @@ const CreateEmployee: React.FC = () => {
                         <div
                             className={
                                 'input-wrapper' +
-                                (!dataValidation.birthday ? ' error' : '')
+                                (dataError.birthday ? ' error' : '')
                             }
                         >
                             <label htmlFor="birthdate"> Date of birth : </label>
-                            <input
-                                value={inputData.birthday ?? ''}
-                                type="date"
-                                name=""
-                                id="birthdate"
-                                onInput={(e) => handleInput(e, 'birthday')}
-                                required
+                            <DatePicker
+                                selected={dateSelected.birthday}
+                                onChange={(d: Date) =>
+                                    selectDateHandler(d, 'birthday')
+                                }
+                                maxDate={
+                                    new Date(
+                                        today.getFullYear() - 18,
+                                        today.getMonth(),
+                                        today.getDate()
+                                    )
+                                }
+                                dateFormat="yyyy/MM/dd"
+                                placeholderText="Select a date"
+                                isClearable
+                                name="birthday"
+                                id="birthday"
                             />
                         </div>
                     </div>
@@ -181,7 +228,7 @@ const CreateEmployee: React.FC = () => {
                         <div
                             className={
                                 'input-wrapper' +
-                                (!dataValidation.street ? ' error' : '')
+                                (dataError.street ? ' error' : '')
                             }
                         >
                             <label htmlFor="street">Street : </label>
@@ -197,7 +244,7 @@ const CreateEmployee: React.FC = () => {
                         <div
                             className={
                                 'input-wrapper' +
-                                (!dataValidation.city ? ' error' : '')
+                                (dataError.city ? ' error' : '')
                             }
                         >
                             <label htmlFor="city">City : </label>
@@ -213,19 +260,23 @@ const CreateEmployee: React.FC = () => {
                         <div
                             className={
                                 'input-wrapper' +
-                                (!dataValidation.state ? ' error' : '')
+                                (dataError.state ? ' error' : '')
                             }
                         >
                             <Dropdown
-                                currentValue={inputData.state !== '' ? inputData.state: 'select'}
+                                currentValue={
+                                    inputData.state !== ''
+                                        ? inputData.state
+                                        : 'select'
+                                }
                                 items={usStates}
                                 dataName="state"
                                 dataLabel="State"
                                 fSize="1rem"
-                                height= "3rem"
+                                height="3rem"
                                 selectItem={selectItem}
                                 lBordC="#93AD18"
-                                lBordW='2px'
+                                lBordW="2px"
                                 fFam="Rosarivo"
                                 underline={true}
                             />
@@ -233,7 +284,7 @@ const CreateEmployee: React.FC = () => {
                         <div
                             className={
                                 'input-wrapper' +
-                                (!dataValidation.zipCode ? ' error' : '')
+                                (dataError.zipCode ? ' error' : '')
                             }
                         >
                             <label htmlFor="zip">Zip code : </label>
@@ -251,34 +302,43 @@ const CreateEmployee: React.FC = () => {
                         <div
                             className={
                                 'input-wrapper' +
-                                (!dataValidation.startDate ? ' error' : '')
+                                (dataError.startDate ? ' error' : '')
                             }
                         >
                             <label htmlFor="start">Start date : </label>
-                            <input
-                                value={inputData.startDate ?? ''}
-                                type="date"
-                                name=""
+                            <DatePicker
+                                selected={dateSelected.startDate}
+                                onChange={(d: Date) =>
+                                    selectDateHandler(d, 'startDate')
+                                }
+                                maxDate={today}
+                                dateFormat="yyyy/MM/dd"
+                                todayButton={'Today'}
+                                placeholderText="Select a date"
+                                isClearable
+                                name="start"
                                 id="start"
-                                onInput={(e) => handleInput(e, 'startDate')}
-                                required
                             />
                         </div>
                         <div
                             className={
                                 'input-wrapper' +
-                                (!dataValidation.department ? ' error' : '')
+                                (dataError.department ? ' error' : '')
                             }
                         >
                             <Dropdown
-                                currentValue={inputData.department !== '' ? inputData.department : 'select'}
+                                currentValue={
+                                    inputData.department !== ''
+                                        ? inputData.department
+                                        : 'select'
+                                }
                                 items={department}
                                 dataName="department"
-                                dataLabel='Department'
-                                height='3rem'
+                                dataLabel="Department"
+                                height="3rem"
                                 fFam="Rosarivo"
-                                fSize='1rem'
-                                lBordC='#93AD18'
+                                fSize="1rem"
+                                lBordC="#93AD18"
                                 selectItem={selectItem}
                             />
                         </div>
@@ -291,36 +351,42 @@ const CreateEmployee: React.FC = () => {
                     <Modal
                         message={
                             dataValidated
-                                ? [`${inputData.firstName} ${inputData.lastName} has been added`]
-                                : [`Red field${
-                                      Object.values(dataValidation).filter(
-                                          (value) => value === false
-                                      ).length > 1
-                                          ? 's'
-                                          : ''
-                                  } ${
-                                      Object.values(dataValidation).filter(
-                                          (value) => value === false
-                                      ).length > 1
-                                          ? 'were'
-                                          : 'was'
-                                  } not filled properly.`]
+                                ? [
+                                      `${inputData.firstName} ${inputData.lastName} has been added`,
+                                  ]
+                                : [
+                                      `Red field${
+                                          Object.values(dataValidation).filter(
+                                              (value) => value === false
+                                          ).length > 1
+                                              ? 's'
+                                              : ''
+                                      } ${
+                                          Object.values(dataValidation).filter(
+                                              (value) => value === false
+                                          ).length > 1
+                                              ? 'were'
+                                              : 'was'
+                                      } not filled properly.`,
+                                      '↧',
+                                      ...dataValidation.reason,
+                                  ]
                         }
                         confirm={handleConfirm}
                         overlay={true}
                         fFam="Montserrat"
-                        fSize='2rem'
+                        fSize="2rem"
                         bordC="#93AD18"
                         bordW="5px"
                         bordR="15px"
                         pad="15px"
-                        bbordR='12px'
-                        bbordC='#93AD18'
-                        bbordW='4px'
-                        bbg='#93AD18'
-                        bfCol='white'
-                        hoverBg='whitesmoke'
-                        hoverCol='#93AD18'
+                        bbordR="12px"
+                        bbordC="#93AD18"
+                        bbordW="4px"
+                        bbg="#93AD18"
+                        bfCol="white"
+                        hoverBg="whitesmoke"
+                        hoverCol="#93AD18"
                     />
                 )}
             </main>

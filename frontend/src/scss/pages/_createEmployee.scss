@@ -23,13 +23,29 @@ form.content-wrapper {
     height: calc(12vh - 2rem);
     background: $white;
     border-radius: 1.4rem;
-    label {
+
+    * {
         font-family: $font2;
+
+        font-size: 1rem;
     }
+
     input {
+        width: 100%;
         border: none;
         border-bottom: 2px solid $mediumGreen;
         height: 1rem;
+    }
+
+    button {
+        padding: unset;
+        top: -2px;
+        right: -2px;
+        &::after {
+            background: black;
+            height: 0.75rem;
+            width: 0.75rem;
+        }
     }
 }
 
@@ -134,7 +150,7 @@ form.content-wrapper {
         flex-wrap: wrap;
         justify-content: center;
         grid-area: address;
-        & div{
+        & div {
             min-width: 35%;
         }
     }
@@ -144,5 +160,41 @@ form.content-wrapper {
         margin: auto;
         aspect-ratio: 4;
     }
-    
+}
+
+@media screen and (max-width: 600px) {
+    .logo-wrapper {
+        display: none;
+    }
+    .appName {
+        font-size: 5rem;
+    }
+    .exit {
+        font-size: 3rem;
+    }
+
+    form.content-wrapper {
+display: flex;
+flex-direction: column;
+    }
+
+    .id-infos {
+        flex-direction: row;
+        margin: auto;
+    }
+
+    .address-infos {
+        flex-wrap: wrap;
+        justify-content: center;
+        grid-area: address;
+        & div {
+            min-width: 35%;
+        }
+    }
+
+    .create-btn {
+        width: 33vw;
+        margin: auto;
+        aspect-ratio: 4;
+    }
 }
