@@ -128,6 +128,19 @@ table {
   padding: 0 1.5rem;
 }
 
+@media screen and (max-width: 600px) {
+  .wrapper-title {
+    position: absolute;
+    height: 4rem;
+    width: 75%;
+    top: -2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    font-size: 1.75rem;
+    padding: 0 1.5rem;
+  }
+}
 form.content-wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -273,35 +286,42 @@ form.content-wrapper {
   }
 }
 @media screen and (max-width: 600px) {
-  .logo-wrapper {
+  .logoWrapper {
     display: none;
   }
   .appName {
-    font-size: 5rem;
+    font-size: 15vw;
   }
   .exit {
-    font-size: 3rem;
+    font-size: 10vw;
   }
   form.content-wrapper {
     display: flex;
     flex-direction: column;
   }
-  .id-infos {
-    flex-direction: row;
+  .inputs-wrapper {
+    flex-direction: column;
     margin: auto;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+  .input-wrapper {
+    width: 100%;
   }
   .address-infos {
-    flex-wrap: wrap;
-    justify-content: center;
-    grid-area: address;
+    position: relative;
+    height: unset;
+    justify-content: space-evenly;
+    background: unset;
+    padding: unset;
+    gap: 1rem;
   }
-  .address-infos div {
-    min-width: 35%;
+  .address-infos::after {
+    display: none;
   }
   .create-btn {
-    width: 33vw;
-    margin: auto;
-    aspect-ratio: 4;
+    font-size: 1.25rem;
+    border-width: 2px;
   }
 }
 body {
@@ -346,5 +366,12 @@ body main {
 @media screen and (max-width: 600px) {
   body main {
     gap: 1.5rem;
+  }
+  .link {
+    align-self: center;
+    padding: 0.5rem 1rem;
+    font-size: 1.15rem;
+    margin: 2.5vh 0;
+    align-self: flex-start;
   }
 }/*# sourceMappingURL=style.css.map */

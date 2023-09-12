@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import Header from '../../components/Header/Header'
 import { NavLink } from 'react-router-dom'
 import { department, usStates } from '../../data/dropdownsData'
@@ -82,8 +82,6 @@ const CreateEmployee: React.FC = () => {
 
             updatedDataError[key as keyof dataErrorType] = !checkData.status
 
-            console.log(checkData)
-
             if (!checkData.status) {
                 setDataValidation((prevDataValidation) => ({
                     status: false,
@@ -150,10 +148,6 @@ const CreateEmployee: React.FC = () => {
         setDateSelected({ ...dateSelected, [id]: d })
         setInputData({ ...inputData, [id]: formatDate(d) })
     }
-
-    useEffect(() => {
-        console.log(inputData)
-    }, [inputData])
 
     return (
         <>

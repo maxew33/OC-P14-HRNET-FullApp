@@ -163,38 +163,46 @@ form.content-wrapper {
 }
 
 @media screen and (max-width: 600px) {
-    .logo-wrapper {
+    .logoWrapper {
         display: none;
     }
     .appName {
-        font-size: 5rem;
+        font-size: 15vw;
     }
     .exit {
-        font-size: 3rem;
+        font-size: 10vw;
     }
 
     form.content-wrapper {
-display: flex;
-flex-direction: column;
+        display: flex;
+        flex-direction: column;
     }
 
-    .id-infos {
-        flex-direction: row;
+    .inputs-wrapper{
+        flex-direction: column;
         margin: auto;
+        flex-wrap: nowrap;
+        width: 100%;
+    }
+
+    .input-wrapper{
+        width: 100%;
     }
 
     .address-infos {
-        flex-wrap: wrap;
-        justify-content: center;
-        grid-area: address;
-        & div {
-            min-width: 35%;
+        position: relative;
+        height: unset;
+        justify-content: space-evenly;
+        background: unset;
+        padding: unset;
+        gap: 1rem;
+        &::after {
+            display: none;
         }
     }
 
     .create-btn {
-        width: 33vw;
-        margin: auto;
-        aspect-ratio: 4;
+        font-size: 1.25rem;
+        border-width: 2px;
     }
 }

@@ -65,10 +65,6 @@ export default function checkInput(type: string, value: Date | string | number |
 
     if (condition in inputConditions) {
         validation.status = String(value).toLowerCase().match(inputConditions[condition]) !== null
-    } else if (type === 'birthday') {
-        console.log('anniv')
-    } else if (type === 'startDate') {
-        console.log('start date')
     }
 
     !validation.status && (validation.reason = name + ' ' + invalidationReason[condition])
