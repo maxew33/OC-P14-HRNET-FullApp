@@ -2,7 +2,7 @@
 
 ![hrnet banner](https://zupimages.net/up/23/36/gotu.png)
 
-Ce repository contient le code pour la partie frontend du projet 14 d'OpenClassrooms : HRnet
+Ce repository contient le code pour la partie frontend et backend du projet 14 d'OpenClassrooms : HRnet
 
 La partie backend se trouve dans le repository suivant : [backend](https://github.com/maxew33/OC-P14-HRNet-backend)
 
@@ -20,8 +20,22 @@ La partie backend se trouve dans le repository suivant : [backend](https://githu
 
 ## Installation
 
-- Dans le terminal, taper la commande : `npm install`
-- En developpement, l'application utilise des données mockées, et les données du backend en production 
+### Pour la partie frontend
+- Dans le terminal, taper les commandes : `cd frontend` puis `npm install`
+- En developpement, l'application utilise des données mockées, et les données du backend en production.
+
+### Pour le backend
+HRnet utilise le stack suivant :
+- Node.js
+- MongoDB
+
+- A la racine du dossier, créer un fichier .env
+- Dans le fichier .env, ajouter les lignes suivantes :
+
+```
+DB_URI = mongodb+srv://<identifiants de votre base de données>/?retryWrites=true&w=majority
+PORT = 3000
+```
 
 ### Lancement
 

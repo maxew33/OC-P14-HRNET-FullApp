@@ -1,4 +1,7 @@
-export default function checkInput(type: string, value: Date | string | number | null) {
+export default function checkInput(
+    type: string,
+    value: Date | string | number | null
+) {
     const validation = {
         status: true,
         reason: '',
@@ -34,40 +37,51 @@ export default function checkInput(type: string, value: Date | string | number |
             break
 
         case 'state':
-            condition = 'dropdown'
+            condition = 'filled'
             name = 'State'
             break
 
         case 'department':
-            condition = 'dropdown'
+            condition = 'filled'
             name = 'Department'
+            break
+
+        case 'birthday':
+            condition = 'filled'
+            name = 'Birthday'
+            break
+
+        case 'startDate':
+            condition = 'filled'
+            name = 'Start date'
             break
     }
 
-    
-    if(!value){
-        return {status: false, reason:name + ' must be filled'}
+    if (!value) {
+        return { status: false, reason: name + ' must be filled' }
     }
 
     const inputConditions: { [key: string]: RegExp } = {
         text: /^[a-zA-Z-éèàâùç' ]{2,}$/gi,
         address: /^[a-zA-Z0-9-éèàâùç,' ]{2,}$/gi,
         number: /^\d{5}$/,
-        dropdown: /.+/
+        filled: /.+/,
     }
 
     const invalidationReason: { [key: string]: string } = {
         text: 'need at least 2 letters',
         address: 'need at least 2 alphanumeric characters ',
         number: 'need at least 5 digit characters',
-        dropdown: 'can\'t be empty'
+        filled: "can't be empty",
     }
 
     if (condition in inputConditions) {
-        validation.status = String(value).toLowerCase().match(inputConditions[condition]) !== null
+        validation.status =
+            String(value).toLowerCase().match(inputConditions[condition]) !==
+            null
     }
-
-    !validation.status && (validation.reason = name + ' ' + invalidationReason[condition])
+    !validation.status &&
+        (validation.reason = name + ' ' + invalidationReason[condition])
 
     return validation
 }
