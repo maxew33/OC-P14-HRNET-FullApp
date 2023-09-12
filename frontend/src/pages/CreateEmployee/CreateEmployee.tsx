@@ -150,10 +150,8 @@ const CreateEmployee: React.FC = () => {
     })
 
     const selectDateHandler = (date: Date | null, id: string) => {
-        if(date){
-            setDateSelected({ ...dateSelected, [id]: date })
-            setInputData({ ...inputData, [id]: formatDate(date) })
-        }
+        setDateSelected({ ...dateSelected, [id]: date })
+        date && setInputData({ ...inputData, [id]: formatDate(date) })
     }
 
     return (
