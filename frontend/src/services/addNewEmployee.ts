@@ -9,7 +9,7 @@ export default async function addNewEmployee(data: object) {
         }
 
         return fetch(
-            'https://oc-p14-hrnet-full-app-git-main-maxew33.vercel.app/api/employees',
+            process.env.DB_URI ?? '',
             requestOptions
         )
             .then((res) => {
