@@ -15,7 +15,7 @@ export const App = () => {
     useEffect(() => {
         if (employees.length === 0) {
             const fetchData = async () => {
-                const url = process.env.DB_URI ?? ''
+                const url = import.meta.env.VITE_DB_URI ?? ''
 
                 const callData = new CallData(url)
 
